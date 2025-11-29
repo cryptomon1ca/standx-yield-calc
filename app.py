@@ -133,7 +133,7 @@ def fetch_global_points():
     """获取当前全网积分估算"""
     try:
         params = {"limit": 200, "offset": 0}
-        response = requests.get(API_URL, headers=HEADERS, params=params, timeout=10)
+        response = requests.get(API_URL, headers=HEADERS, params=params, timeout=5)
         response.raise_for_status()
         data = response.json().get("data", [])
         
@@ -141,8 +141,12 @@ def fetch_global_points():
         top_200_sum = sum(float(item.get("points", 0)) / 1_000_000 for item in data)
         estimated_total = top_200_sum * 1.3
         return estimated_total
-    except:
-        return 500_000_000  # Fallback estimate
+    except requests.exceptions.Timeout:
+        st.warning("API 请求超时，使用默认估算值")
+        return 500_000_000
+    except Exception as e:
+        st.warning(f"无法获取实时数据，使用默认估算值")
+        return 500_000_000
 
 def calculate_points(capital, days, is_active):
     """
