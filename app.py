@@ -380,17 +380,27 @@ def render_points_chart(daily_breakdown):
 
 def main():
     # Author credit in top right corner
-    st.markdown(
-        '''
-        <div style="position: absolute; top: 10px; right: 20px; display: flex; align-items: center; gap: 8px;">
-            <img src="assets/author_avatar.png" style="width: 35px; height: 35px; border-radius: 50%;">
-            <span style="font-size: 13px; color: #64748B;">
-                加密小师妹Monica <a href="https://twitter.com/Monica_xiaoM" target="_blank" style="color: #2563EB; text-decoration: none;">@Monica_xiaoM</a>
-            </span>
-        </div>
-        ''',
-        unsafe_allow_html=True
-    )
+    st.markdown('<div style="text-align: right; margin-bottom: -20px;">', unsafe_allow_html=True)
+    
+    # Use columns to align avatar and text
+    _, _, author_col = st.columns([2, 1, 1])
+    with author_col:
+        sub_col1, sub_col2 = st.columns([1, 4])
+        with sub_col1:
+            try:
+                st.image("assets/author_avatar.png", width=35)
+            except:
+                pass
+        with sub_col2:
+            st.markdown(
+                '<p style="font-size: 13px; color: #64748B; margin-top: 5px; white-space: nowrap;">'
+                '加密小师妹Monica<br>'
+                '<a href="https://twitter.com/Monica_xiaoM" target="_blank" style="color: #2563EB; text-decoration: none;">@Monica_xiaoM</a>'
+                '</p>',
+                unsafe_allow_html=True
+            )
+    
+    st.markdown('</div>', unsafe_allow_html=True)
     
     # Logo and Title
     col1, col2, col3 = st.columns([1, 2, 1])
