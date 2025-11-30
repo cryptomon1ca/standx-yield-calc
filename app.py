@@ -322,10 +322,10 @@ def render_points_chart(daily_breakdown):
         x=df['天数'],
         y=df['累计积分'],
         mode='lines+markers',
-        fill='tozeroy',
-        line=dict(color='#3B82F6', width=3),
-        marker=dict(size=4, color='#3B82F6'),
-        fillcolor='rgba(59, 130, 246, 0.15)',
+        # Remove fill to avoid obscuring the line if range is weird
+        # fill='tozeroy',
+        line=dict(color='#2563EB', width=4),  # Darker blue, thicker line
+        marker=dict(size=6, color='#2563EB', symbol='circle'),
         name='累计积分',
         showlegend=True,
         hovertemplate='第 %{x} 天<br>累计积分: %{y:,.0f}<extra></extra>'
@@ -345,11 +345,15 @@ def render_points_chart(daily_breakdown):
             line_color="#EF4444",
             line_width=2,
             annotation_text="1.5x 加速结束",
-            annotation_position="top",
+            annotation_position="top right",
             annotation=dict(
                 font=dict(size=12, color="#EF4444")
             )
         )
+    
+    # Calculate max y for range
+    max_y = df['累计积分'].max() * 1.1 if not df.empty else 100
+    max_x = df['天数'].max() if not df.empty else 30
     
     fig.update_layout(
         title=dict(
@@ -359,19 +363,25 @@ def render_points_chart(daily_breakdown):
         xaxis=dict(
             title="天数",
             showgrid=True,
-            gridcolor='rgba(0,0,0,0.05)'
+            gridcolor='rgba(0,0,0,0.1)',
+            range=[0, max_x + 1],  # Explicit range
+            dtick=5 if max_x < 60 else 10
         ),
         yaxis=dict(
             title="累计积分",
             showgrid=True,
-            gridcolor='rgba(0,0,0,0.05)'
+            gridcolor='rgba(0,0,0,0.1)',
+            range=[0, max_y],  # Explicit range
+            zeroline=True,
+            zerolinecolor='rgba(0,0,0,0.1)'
         ),
         height=400,
         font=dict(size=14, color=DARK_BLUE_GRAY),
         plot_bgcolor='white',
         paper_bgcolor='white',
         hovermode='x unified',
-        showlegend=True
+        showlegend=True,
+        margin=dict(l=20, r=20, t=60, b=20)
     )
     
     return fig
