@@ -156,7 +156,7 @@ def get_daily_inflation_rate(day):
     后期：趋于稳定
     """
     if day <= 30:
-        return 0.04  # 前30天：4%（项目热度高，新用户快速增长）
+        return 0.03  # 前30天：3%（项目热度高，新用户快速增长）
     elif day <= 60:
         return 0.02  # 30-60天：2%（增长放缓）
     else:
