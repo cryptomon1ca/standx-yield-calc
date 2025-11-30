@@ -229,16 +229,6 @@ def render_sidebar():
         step=0.5
     )
     
-    st.sidebar.markdown("---")
-    
-    # CTA Section
-    remaining_days = (BOOST_END_DATE - datetime.now()).days
-    if remaining_days < 0:
-        remaining_days = 0
-        
-    st.sidebar.markdown(f"**🔥 倒计时：1.5x 红利窗口期仅剩 {remaining_days} 天**")
-    st.sidebar.link_button("🚀 立即前往Stand X 注册", "https://standx.com/referral?code=monica11", use_container_width=True)
-    
     return capital, days, is_active, fdv, airdrop_pct
 
 def render_kpis(my_points, metrics):
@@ -420,6 +410,19 @@ def main():
         except:
             pass
         st.markdown('<h1 style="text-align: center; margin-top: 10px;">收益测算器</h1>', unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown('<div style="height: 40px;"></div>', unsafe_allow_html=True)
+        remaining_days = (BOOST_END_DATE - datetime.now()).days
+        if remaining_days < 0:
+            remaining_days = 0
+        st.markdown(
+            f'<p style="font-size: 14px; color: #EF4444; font-weight: bold; text-align: right; margin-bottom: 5px;">'
+            f'🔥 倒计时：1.5x 红利窗口期仅剩 {remaining_days} 天'
+            f'</p>', 
+            unsafe_allow_html=True
+        )
+        st.link_button("🚀 立即前往Stand X 注册", "https://standx.com/referral?code=monica11", use_container_width=True)
     
     st.markdown('<div style="text-align: center;"><p style="font-size: 18px; color: #64748B;">基于主网分段倍率模型的量化估算</p></div>', unsafe_allow_html=True)
     st.markdown("---")
