@@ -229,6 +229,16 @@ def render_sidebar():
         step=0.5
     )
     
+    st.sidebar.markdown("---")
+    
+    # CTA Section
+    remaining_days = (BOOST_END_DATE - datetime.now()).days
+    if remaining_days < 0:
+        remaining_days = 0
+        
+    st.sidebar.markdown(f"**🔥 倒计时：1.5x 红利窗口期仅剩 {remaining_days} 天**")
+    st.sidebar.link_button("🚀 立即前往Stand X 注册", "https://standx.com/referral?code=monica11", use_container_width=True)
+    
     return capital, days, is_active, fdv, airdrop_pct
 
 def render_kpis(my_points, metrics):
