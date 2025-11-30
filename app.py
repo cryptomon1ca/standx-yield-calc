@@ -18,7 +18,7 @@ BOOST_END_DATE = datetime(2025, 12, 11)
 RATE_BOOST = 1.5
 RATE_BASE = 1.2
 BONUS_DAILY = 10
-DAILY_INFLATION = 0.015
+DAILY_INFLATION = 0.03  # 每日全网积分增长率（更保守估计）
 
 # API Configuration
 API_URL = "https://api.standx.com/v1/offchain/perps-campaign/rank"
@@ -107,8 +107,9 @@ def fetch_global_points():
         response.raise_for_status()
         data = response.json().get("data", [])
         
+        # Sum top 200 and multiply by 5.0 to estimate total (based on 210k participants)
         top_200_sum = sum(float(item.get("points", 0)) / 1_000_000 for item in data)
-        estimated_total = top_200_sum * 1.3
+        estimated_total = top_200_sum * 5.0
         return estimated_total
     except:
         return 500_000_000
