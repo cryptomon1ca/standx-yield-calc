@@ -296,14 +296,17 @@ def render_points_chart(daily_breakdown):
     
     fig = go.Figure()
     
+    # Add the main line chart
     fig.add_trace(go.Scatter(
         x=df['天数'],
         y=df['累计积分'],
-        mode='lines',
+        mode='lines+markers',
         fill='tozeroy',
-        line=dict(color=LIGHT_BLUE, width=3),
-        fillcolor='rgba(59, 130, 246, 0.2)',
+        line=dict(color='#3B82F6', width=3),
+        marker=dict(size=4, color='#3B82F6'),
+        fillcolor='rgba(59, 130, 246, 0.15)',
         name='累计积分',
+        showlegend=True,
         hovertemplate='第 %{x} 天<br>累计积分: %{y:,.0f}<extra></extra>'
     ))
     
@@ -318,9 +321,13 @@ def render_points_chart(daily_breakdown):
         fig.add_vline(
             x=boost_end_day,
             line_dash="dash",
-            line_color="red",
+            line_color="#EF4444",
+            line_width=2,
             annotation_text="1.5x 加速结束",
-            annotation_position="top"
+            annotation_position="top",
+            annotation=dict(
+                font=dict(size=12, color="#EF4444")
+            )
         )
     
     fig.update_layout(
@@ -328,13 +335,22 @@ def render_points_chart(daily_breakdown):
             text="积分累积趋势",
             font=dict(size=20, color=DARK_BLUE_GRAY, family="Arial")
         ),
-        xaxis_title="天数",
-        yaxis_title="累计积分",
+        xaxis=dict(
+            title="天数",
+            showgrid=True,
+            gridcolor='rgba(0,0,0,0.05)'
+        ),
+        yaxis=dict(
+            title="累计积分",
+            showgrid=True,
+            gridcolor='rgba(0,0,0,0.05)'
+        ),
         height=400,
         font=dict(size=14, color=DARK_BLUE_GRAY),
         plot_bgcolor='white',
         paper_bgcolor='white',
-        hovermode='x unified'
+        hovermode='x unified',
+        showlegend=True
     )
     
     return fig
