@@ -380,21 +380,21 @@ def render_points_chart(daily_breakdown):
 
 def main():
     # Author credit in top right corner
-    st.markdown('<div style="text-align: right; margin-bottom: -20px;">', unsafe_allow_html=True)
+    st.markdown('<div style="text-align: right; margin-bottom: -30px;">', unsafe_allow_html=True)
     
-    # Use columns to align avatar and text
-    _, _, author_col = st.columns([2, 1, 1])
+    # Use columns to align avatar and text tightly
+    _, _, _, author_col = st.columns([3, 1, 0.5, 1.5])
     with author_col:
-        sub_col1, sub_col2 = st.columns([1, 4])
+        sub_col1, sub_col2 = st.columns([0.8, 3])
         with sub_col1:
             try:
-                st.image("assets/author_avatar.png", width=35)
+                st.image("assets/author_avatar.png", width=32)
             except:
                 pass
         with sub_col2:
             st.markdown(
-                '<p style="font-size: 13px; color: #64748B; margin-top: 5px; white-space: nowrap;">'
-                '加密小师妹Monica<br>'
+                '<p style="font-size: 12px; color: #64748B; margin-top: 6px; margin-left: -15px; white-space: nowrap;">'
+                '加密小师妹Monica '
                 '<a href="https://twitter.com/Monica_xiaoM" target="_blank" style="color: #2563EB; text-decoration: none;">@Monica_xiaoM</a>'
                 '</p>',
                 unsafe_allow_html=True
