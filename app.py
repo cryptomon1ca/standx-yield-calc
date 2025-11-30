@@ -147,9 +147,29 @@ def calculate_points(capital, days, is_active):
     
     return total_points, daily_breakdown
 
+def get_daily_inflation_rate(day):
+    """
+    获取指定天数的全网积分增长率（递减模型）
+    
+    早期：高增长（新用户涌入）
+    中期：增长放缓
+    后期：趋于稳定
+    """
+    if day <= 30:
+        return 0.04  # 前30天：4%（项目热度高，新用户快速增长）
+    elif day <= 60:
+        return 0.02  # 30-60天：2%（增长放缓）
+    else:
+        return 0.01  # 60天后：1%（趋于稳定）
+
 def calculate_roi(my_points, duration_days, capital, fdv, airdrop_pct, current_global_points):
-    """计算收益指标"""
-    projected_global = current_global_points * ((1 + DAILY_INFLATION) ** duration_days)
+    """计算收益指标（使用递减增长率模型）"""
+    # 计算未来全网积分（考虑每日不同的增长率）
+    projected_global = current_global_points
+    for day in range(1, duration_days + 1):
+        daily_rate = get_daily_inflation_rate(day)
+        projected_global *= (1 + daily_rate)
+    
     my_share = my_points / projected_global if projected_global > 0 else 0
     est_value = fdv * (airdrop_pct / 100) * my_share
     net_profit = est_value
