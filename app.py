@@ -379,24 +379,18 @@ def render_points_chart(daily_breakdown):
 # --- Main App ---
 
 def main():
-    # Header with Logo and Author
-    st.markdown('<div style="text-align: right; padding: 10px 20px 0 0;">', unsafe_allow_html=True)
-    
-    col_avatar, col_name = st.columns([1, 20])
-    with col_avatar:
-        try:
-            st.image("assets/author_avatar.png", width=40)
-        except:
-            pass
-    with col_name:
-        st.markdown(
-            '<p style="font-size: 14px; color: #64748B; margin-top: 8px; text-align: right;">'
-            '加密小师妹Monica <a href="https://twitter.com/Monica_xiaoM" target="_blank" style="color: #2563EB; text-decoration: none;">@Monica_xiaoM</a>'
-            '</p>',
-            unsafe_allow_html=True
-        )
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+    # Author credit in top right corner
+    st.markdown(
+        '''
+        <div style="position: absolute; top: 10px; right: 20px; display: flex; align-items: center; gap: 8px;">
+            <img src="assets/author_avatar.png" style="width: 35px; height: 35px; border-radius: 50%;">
+            <span style="font-size: 13px; color: #64748B;">
+                加密小师妹Monica <a href="https://twitter.com/Monica_xiaoM" target="_blank" style="color: #2563EB; text-decoration: none;">@Monica_xiaoM</a>
+            </span>
+        </div>
+        ''',
+        unsafe_allow_html=True
+    )
     
     # Logo and Title
     col1, col2, col3 = st.columns([1, 2, 1])
