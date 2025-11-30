@@ -458,8 +458,8 @@ def main():
     col1, col2 = st.columns(2)
     
     with col1:
-        # st.plotly_chart(render_points_chart(daily_breakdown), use_container_width=True)
-        st.info("图表暂时隐藏以排查故障")
+        st.plotly_chart(render_points_chart(daily_breakdown), use_container_width=True)
+        # st.info("图表暂时隐藏以排查故障")
     
     with col2:
         st.plotly_chart(render_sensitivity_heatmap(capital, days, is_active, current_global_points), use_container_width=True)
