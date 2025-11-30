@@ -246,6 +246,99 @@ def render_kpis(my_points, metrics):
             delta=f"占比: {metrics['my_share']:.4f}%"
         )
 
+def render_sensitivity_heatmap(capital, days, is_active, current_global_points):
+    """渲染敏感度热力图"""
+    fdv_range = np.linspace(100_000_000, 3_000_000_000, 15)
+    days_range = np.linspace(15, 90, 15)
+    
+    net_profit_matrix = []
+    
+    for day_val in days_range:
+        row = []
+        for fdv_val in fdv_range:
+            my_pts, _ = calculate_points(capital, int(day_val), is_active)
+            metrics = calculate_roi(my_pts, int(day_val), capital, fdv_val, 5.0, current_global_points)
+            row.append(metrics['net_profit'])
+        net_profit_matrix.append(row)
+    
+    fig = go.Figure(data=go.Heatmap(
+        z=net_profit_matrix,
+        x=[f"${x/1e9:.1f}B" if x >= 1e9 else f"${x/1e6:.0f}M" for x in fdv_range],
+        y=[f"{int(d)}天" for d in days_range],
+        colorscale='Teal',
+        colorbar=dict(
+            title=dict(
+                text="净利润 ($)",
+                font=dict(size=14)
+            )
+        ),
+        hovertemplate='FDV: %{x}<br>投资天数: %{y}<br>净利润: $%{z:,.2f}<extra></extra>'
+    ))
+    
+    fig.update_layout(
+        title=dict(
+            text="敏感度矩阵：净利润 vs FDV & 投资时长",
+            font=dict(size=20, color=DARK_BLUE_GRAY, family="Arial")
+        ),
+        xaxis_title="预期市值 (FDV)",
+        yaxis_title="投资天数",
+        height=500,
+        font=dict(size=14, color=DARK_BLUE_GRAY),
+        plot_bgcolor='white',
+        paper_bgcolor='white'
+    )
+    
+    return fig
+
+def render_points_chart(daily_breakdown):
+    """渲染积分累积曲线"""
+    df = pd.DataFrame(daily_breakdown)
+    
+    fig = go.Figure()
+    
+    fig.add_trace(go.Scatter(
+        x=df['天数'],
+        y=df['累计积分'],
+        mode='lines',
+        fill='tozeroy',
+        line=dict(color=LIGHT_BLUE, width=3),
+        fillcolor='rgba(59, 130, 246, 0.2)',
+        name='累计积分',
+        hovertemplate='第 %{x} 天<br>累计积分: %{y:,.0f}<extra></extra>'
+    ))
+    
+    # Add boost end marker
+    boost_end_day = None
+    for idx, row in df.iterrows():
+        if row['日期'] > BOOST_END_DATE and boost_end_day is None:
+            boost_end_day = row['天数']
+            break
+    
+    if boost_end_day:
+        fig.add_vline(
+            x=boost_end_day,
+            line_dash="dash",
+            line_color="red",
+            annotation_text="1.5x 加速结束",
+            annotation_position="top"
+        )
+    
+    fig.update_layout(
+        title=dict(
+            text="积分累积趋势",
+            font=dict(size=20, color=DARK_BLUE_GRAY, family="Arial")
+        ),
+        xaxis_title="天数",
+        yaxis_title="累计积分",
+        height=400,
+        font=dict(size=14, color=DARK_BLUE_GRAY),
+        plot_bgcolor='white',
+        paper_bgcolor='white',
+        hovermode='x unified'
+    )
+    
+    return fig
+
 # --- Main App ---
 
 def main():
@@ -277,6 +370,15 @@ def main():
     render_kpis(my_points, metrics)
     
     st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Charts
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.plotly_chart(render_points_chart(daily_breakdown), use_container_width=True)
+    
+    with col2:
+        st.plotly_chart(render_sensitivity_heatmap(capital, days, is_active, current_global_points), use_container_width=True)
     
     # Footer
     st.markdown("---")
