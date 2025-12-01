@@ -416,24 +416,45 @@ def main():
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         try:
-            st.image("assets/standx_logo.png", width=500)
+            st.image("assets/standx_logo.png", width=350)
         except:
             pass
         st.markdown('<h1 style="text-align: center; margin-top: 10px;">收益测算器</h1>', unsafe_allow_html=True)
         st.markdown('<div style="text-align: center;"><p style="font-size: 18px; color: #64748B;">基于主网分段倍率模型的量化估算</p></div>', unsafe_allow_html=True)
     
     with col3:
-        st.markdown('<div style="height: 200px;"></div>', unsafe_allow_html=True)
+        st.markdown('<div style="height: 130px;"></div>', unsafe_allow_html=True)
         remaining_days = (BOOST_END_DATE - datetime.now()).days
         if remaining_days < 0:
             remaining_days = 0
         st.markdown(
-            f'<p style="font-size: 14px; color: #EF4444; font-weight: bold; text-align: center; margin-bottom: 5px;">'
+            f'<p style="font-size: 18px; color: #EF4444; font-weight: bold; text-align: center; margin-bottom: 8px;">'
             f'🔥 倒计时：1.5x 红利窗口期仅剩 {remaining_days} 天'
             f'</p>', 
             unsafe_allow_html=True
         )
-        st.link_button("🚀 立即前往Stand X 注册", "https://standx.com/referral?code=monica11", use_container_width=True)
+        st.markdown(
+            f'''
+            <a href="https://standx.com/referral?code=monica11" target="_blank" style="
+                display: block;
+                width: 100%;
+                text-align: center;
+                background-color: #ffffff;
+                color: #1f2937;
+                padding: 12px 20px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 18px;
+                border: 1px solid #e5e7eb;
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                transition: all 0.2s;
+            ">
+                🚀 立即前往Stand X 注册
+            </a>
+            ''',
+            unsafe_allow_html=True
+        )
     
     st.markdown("---")
     
