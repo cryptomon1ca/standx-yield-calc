@@ -5,6 +5,12 @@ import requests
 import numpy as np
 from datetime import datetime, timedelta
 
+import base64
+
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
 # --- Configuration & Constants ---
 st.set_page_config(
     page_title="StandX 收益测算器",
