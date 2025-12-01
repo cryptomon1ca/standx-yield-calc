@@ -423,12 +423,12 @@ def main():
         st.markdown('<div style="text-align: center;"><p style="font-size: 18px; color: #64748B;">基于主网分段倍率模型的量化估算</p></div>', unsafe_allow_html=True)
     
     with col3:
-        st.markdown('<div style="height: 100px;"></div>', unsafe_allow_html=True)
+        st.markdown('<div style="height: 200px;"></div>', unsafe_allow_html=True)
         remaining_days = (BOOST_END_DATE - datetime.now()).days
         if remaining_days < 0:
             remaining_days = 0
         st.markdown(
-            f'<p style="font-size: 14px; color: #EF4444; font-weight: bold; text-align: right; margin-bottom: 5px;">'
+            f'<p style="font-size: 14px; color: #EF4444; font-weight: bold; text-align: center; margin-bottom: 5px;">'
             f'🔥 倒计时：1.5x 红利窗口期仅剩 {remaining_days} 天'
             f'</p>', 
             unsafe_allow_html=True
