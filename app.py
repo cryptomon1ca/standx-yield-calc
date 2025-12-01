@@ -416,7 +416,14 @@ def main():
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         try:
-            st.image("assets/standx_logo.png", width=350)
+            logo_b64 = get_base64_image("assets/standx_logo.png")
+            if logo_b64:
+                st.markdown(
+                    f'<div style="display: flex; justify-content: center; margin-bottom: 10px;">'
+                    f'<img src="data:image/png;base64,{logo_b64}" style="width: 350px;">'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
         except:
             pass
         st.markdown('<h1 style="text-align: center; margin-top: 10px;">收益测算器</h1>', unsafe_allow_html=True)
